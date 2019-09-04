@@ -54,7 +54,7 @@ async function screenshotTheme(theme, overwrite) {
 		}
 	}
 
-	await captureWebsite.file(screenshotDir + '/code.html', file, {
+	await captureWebsite.file(screenshotDir + '/../bin/code.html', file, {
 		defaultBackground: false,
 		element: 'pre',
 		waitForElement: `.language-javascript`,
