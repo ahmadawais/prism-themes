@@ -2,7 +2,6 @@ const fs = require('fs').promises;
 const captureWebsite = require('capture-website');
 const path = require('path');
 
-
 const themesDir = path.join(__dirname, 'themes');
 const screenshotDir = path.join(__dirname, 'screenshots');
 
@@ -42,7 +41,12 @@ async function screenshotMissingThemes() {
 async function screenshotTheme(theme, overwrite) {
 	const file = `${screenshotDir}/${theme}.png`;
 
-	if (await fs.stat(file).then(s => s.isFile()).catch(() => false)) {
+	if (
+		await fs
+			.stat(file)
+			.then(s => s.isFile())
+			.catch(() => false)
+	) {
 		if (overwrite) {
 			await fs.unlink(file);
 		} else {
@@ -52,11 +56,11 @@ async function screenshotTheme(theme, overwrite) {
 
 	await captureWebsite.file(screenshotDir + '/code.html', file, {
 		defaultBackground: false,
-		scaleFactor: 1,
 		element: 'pre',
-		styles: [
-			await fs.readFile(`${themesDir}/${theme}.css`, 'utf-8')
-		]
+		waitForElement: `.language-javascript`,
+		width: 600,
+		height: 400,
+		styles: [await fs.readFile(`${themesDir}/${theme}.css`, 'utf-8')]
 	});
 }
 
